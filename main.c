@@ -5,6 +5,7 @@
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <unistd.h>
+#include <ctype.h>
 
 #define MAX_EXT_LEN 10
 #define MAX_EXTS 20
@@ -57,12 +58,16 @@ void search_dir(const char *dir_name, char extensions[][MAX_EXT_LEN], int num_ex
                 if (strcmp(ext, "Makefile") == 0 && strcmp(entry->d_name, "Makefile") == 0) {
                     char path[1024];
                     snprintf(path, sizeof(path), "%s/%s", dir_name, entry->d_name);
-                    *total_lines += count_lines(path);
+                    int lines = count_lines(path);
+                    *total_lines += lines;
+                    printf("File: %s (%d lines)\n", path, lines);
                     break;
                 } else if (strstr(entry->d_name, ext) != NULL) {
                     char path[1024];
                     snprintf(path, sizeof(path), "%s/%s", dir_name, entry->d_name);
-                    *total_lines += count_lines(path);
+                    int lines = count_lines(path);
+                    *total_lines += lines;
+                    printf("File: %s (%d lines)\n", path, lines);
                     break;
                 }
             }
